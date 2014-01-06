@@ -28,6 +28,8 @@
 		C9EA2997187AE72000713E4C /* Patch-Based-Background-Model */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Patch-Based-Background-Model"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EA299A187AE72000713E4C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C9EA299C187AE72000713E4C /* Patch_Based_Background_Model.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Patch_Based_Background_Model.1; sourceTree = "<group>"; };
+		C9EA29A4187AE74A00713E4C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		C9EA29A5187AE74A00713E4C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				C9EA2999187AE72000713E4C /* Patch-Based-Background-Model */,
+				C9EA29A3187AE72B00713E4C /* support */,
 				C9EA2998187AE72000713E4C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +67,15 @@
 				C9EA299C187AE72000713E4C /* Patch_Based_Background_Model.1 */,
 			);
 			path = "Patch-Based-Background-Model";
+			sourceTree = "<group>";
+		};
+		C9EA29A3187AE72B00713E4C /* support */ = {
+			isa = PBXGroup;
+			children = (
+				C9EA29A4187AE74A00713E4C /* LICENSE */,
+				C9EA29A5187AE74A00713E4C /* README.md */,
+			);
+			name = support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
