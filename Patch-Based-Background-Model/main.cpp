@@ -48,16 +48,17 @@ int main(int argc, const char * argv[])
     }
     
     size_t nBlock = blocks.size();
-    vector<vector<int>> features;
+    vector<Mat> features;
     vector<EM> gmms;
+    vector<bool> flagsPrev(nBlock);
     vector<bool> flags(nBlock);
     for (int i=0; i<nBlock; ++i) {
-        features.push_back(vector<int>(N_CHANNEL * N_COEFF));
+        features.push_back(Mat::zeros(1, N_CHANNEL * N_COEFF, CV_32FC1));
         gmms.push_back(EM(1));
     }
 
     int64 beginTime = getTickCount();
-    for(int idx = 0; idx < nFrame; ++idx)
+    for(int idxFrame = 0; idxFrame < nFrame; ++idxFrame)
     {
         Mat frame;
         cap >> frame;
@@ -75,21 +76,39 @@ int main(int argc, const char * argv[])
                 Mat dctFeature;
                 dct(patch, dctFeature);
                 
-                vector<int> &feature = features[idx];
-                feature[i * N_COEFF] = dctFeature.at<float>(0, 0);
-                feature[i * N_COEFF + 1] = dctFeature.at<float>(0, 1);
-                feature[i * N_COEFF + 2] = dctFeature.at<float>(1, 0);
-                feature[i * N_COEFF + 3] = dctFeature.at<float>(1, 1);
+                Mat &feature = features[idx];
+                feature.at<float>(0, i * N_COEFF) = dctFeature.at<float>(0, 0);
+                feature.at<float>(0, i * N_COEFF + 1) = dctFeature.at<float>(0, 1);
+                feature.at<float>(0, i * N_COEFF + 2) = dctFeature.at<float>(1, 0);
+                feature.at<float>(0, i * N_COEFF + 3) = dctFeature.at<float>(1, 1);
             }
         }
         
         // Block Classify
-        for (<#initialization#>; <#condition#>; <#increment#>) {
-            <#statements#>
+        for (int i=0; i<nBlock; ++i) {
+            bool isBackground = false;
+            EM &gmm = gmms[i];
+            Mat &feature = features[i];
+            
+            Vec2d probs = gmm.predict(feature);
+            if (probs[0] > T1) {
+                isBackground = true;
+            }
+            
+            if (!isBackground) {
+                Mat means = gmm.getMat("means");
+                Mat similarity = 1 - feature.t() * means / (norm(feature) * norm(means));
+                if (similarity.at<float>(0, 0) < T2) {
+                    isBackground = true;
+                } else if (flagsPrev[i] && similarity.at<float>(0, 0) < 0.5 * T2) {
+                    isBackground = true;
+                }
+            }
+            
+            flags[i] = isBackground;
         }
         
-//        imshow("Demo", output);
-//        waitKey();
+        flagsPrev = flags;
 
         if (waitKey(1) == 27) break;
     }
