@@ -41,6 +41,8 @@ int main(int argc, const char * argv[])
     vector<Rect> blocks;
     for (int r=0; r<height; r+=BLOCK_SIZE) {
         for (int c=0; c<width; c+=BLOCK_SIZE) {
+//    for (int r=0; r+BLOCK_SIZE-1<height; ++r) {
+//        for (int c=0; c+BLOCK_SIZE-1<width; ++c) {
             Rect block;
             block.width = BLOCK_SIZE;
             block.height = BLOCK_SIZE;
